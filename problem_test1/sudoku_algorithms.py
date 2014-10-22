@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+"""
+"""
 
 import copy
 
@@ -6,7 +9,7 @@ def parse_csv_from_text(csv):
     """
     parse input and add it to an array of arays
     """
-    scene = [ [int(i) for i in j.split(',')] for j in csv.split('\n')]
+    scene = [ [int(i.strip()) for i in j.split(',')] for j in csv.split('\n')]
     #verify dimension consistency
     for c in scene:
         assert len(scene) == len(c)

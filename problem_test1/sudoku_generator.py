@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import random 
+import math
 
 
-class SudokuGenerator(object):
+class SudokuPuzzleGenerator(object):
     """
     Generates sudoku sets
     """
@@ -33,17 +34,94 @@ class SudokuGenerator(object):
         @param difficulty: number of zeros that will be put
         """
         pass
+
+    def _get_next_zero(self, puzzle):
+        """
+        returns the coordinates of the next '0' element (to solve)
+        """
+        D = len(puzzle)
+        numbers = range(D)
+        for i in numbers:
+            for j in numbers:
+                if puzzle[i][j] == 0:
+                    return (i,j)
+
+    def _get_candidates(self, puzzle, pos):
+        """
+        Calculates the candidates for a certain position in the puzzle
+        @param puzzle
+        @param pos: coord (x,y) in puzzle
+        """
+        i,j = pos
+        D = len(puzzle)  #matrix dimension
+        N = math.sqrt(D)  #quadrants
+        taken = set([r for r in puzzle[i]])
+        col = [puzzle[k][j] for k in numbers]
+        taken.update(col)
+        qr = i/N; qc = j/N
+        quadrant = [row[qc:qc+N] for row in puzzle[qr:qr+N]]
+        for r in quadrant:
+            taken.update(r)
+        #avoid duplicates
+        taken = list(taken)
+        candidates = [i for i in numbers if i not in taken]
+        
+    def _get_all_candidates(self, puzzle):
+        """
+        Calculates the candidates for a certain position in the puzzle
+        @param puzzle
+        """
+        D = len(puzzle)  #matrix dimension
+        N = math.sqrt(D)  #quadrants
+        #all numbers in the selectable set (and also, the index of the rows and columns)
+        numbers = range(1, D+1)
+        #initial candidates, empty
+        candidates = [[[] for j in numbers] for k in numbers]
+        #for all columns and rows
+        t_puzzle = [[r[i] for r in puzzle] for i in numbers]
+        for i in numbers:
+            #i == row index
+            
+            for j in numbers:
+                # j == col index
+                if puzzle[i][j] == 0:
+                    #if the number is not yet defined
+                    #get all taken
+                    taken = set([r for r in puzzle[i]])
+                    col = [puzzle[k][j] for k in numbers]
+                    taken.update(col)
+                    qr = i/N; qc = j/N
+                    quadrant = [row[qc:qc+N] for row in puzzle[qr:qr+N]]
+                    for r in quadrant:
+                        taken.update(r)
+                    #avoid duplicates
+                    taken = list(taken)
+                    candidates[i][j] = [i for i in numbers if i not in taken]
+        return candidates
         
     def _generate_solution(self, dimension):
         """
         Generates a solved sudoku puzzle
         @param dimension: the number of columns and rows in the puzzle
         """
-        pass
+        #TODO
+        D = len(puzzle)  #matrix dimension
+        N = math.sqrt(D)  #quadrants
+        puzzle = [[0 for j in numbers] for k in numbers]
+        #all numbers in the selectable set (and also, the index of the rows and columns)
+        numbers = range(1, D+1)
+        for i in numbers:
+            for j in numbers:
+                candidates = self._get_candidates(puzzle, (i,j))
+                assert len(candidates)>0
+                puzzle[i][j] = random.choice(candidates)
+                #this WILL fail many times .... the way to generate a solution is with a solver
+                #TODO
+        return puzzle
     
     def generate(self, dimension=9, difficulty=27):
         """
-        returns a matrix  pair: 
+        returns a pair of matrices (puzzle, solution)
         @param dimension: the number of columns and rows in the puzzle
         @param difficulty: number of zeros that will be put
         """

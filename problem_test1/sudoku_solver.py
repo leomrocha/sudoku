@@ -5,16 +5,24 @@
 
 """
 
+
+import argparse
 from sudoku_algorithms import *
 
-solvers = {
+SOLVERS = {
               "backtracking": RecursiveBacktrackingSudokuSolver,
+              #"generator": SudokuPuzzleGenerator,
 }
 
 
 
+
+
 def main(args):
-    pass
+    parser = argparse.ArgumentParser(description='Sudoku solver')
+    parser.add_argument('-f','--csvfile', help='Input CSV file', required=True)
+    args = parser.parse_args()
+    puzzle = parse_csv_from_file(args.csvfile)
     
 
 if __name__ == '__main__':

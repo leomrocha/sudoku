@@ -34,26 +34,15 @@ def parse_csv_from_file(csvfile):
     
 class RecursiveBacktrackingSudokuSolver(object):
     """
-    This sudoku solver uses a dumb recursive backtracking 
-    This should break memory or recursion limits
-    also it's not that efficient
-    Anyway, I wanted to do it.
+    This sudoku solver uses a recursive backtracking algorithm
+    It can (and has by default) constraints on the elements that will try. 
+    This improves efficiency 
+    It can be used also as a pure dumb backtracking, that is slower and more memory intensive
     """
     def __init__(self):
         """
         """
         pass
-        
-    def _get_next_candidates(self, puzzle):
-        """
-        looks for the next 0 value and searches for candidates that can fit.
-        """
-        candidates = range(1, this.D)
-        #find next 0
-        #elements in the same row !candidates
-        #elements in the same row !candidates
-        #elements in the same quadrant !candidates
-        return candidates
         
     def _accept(self, puzzle):
         """
@@ -145,7 +134,7 @@ class RecursiveBacktrackingSudokuSolver(object):
         taken = set([r for r in puzzle[i]])
         col = [puzzle[k][j] for k in range(D)]
         taken.update(col)
-        #TODO improve math here
+        #TODO improve math here (did it at 1 am)
         qr = i/N; qc = j/N
         quadrant = [row[qc*N:qc*N+N] for row in puzzle[qr*N:qr*N+N]]
         for r in quadrant:
@@ -206,22 +195,26 @@ class RecursiveBacktrackingSudokuSolver(object):
         
         return self._recursive_solve(puzzle)
         
-    def _recursive_solve(self, puzzle, depth=0):
+    def _recursive_solve(self, puzzle, depth=0, use_constraints=True):
         """
         recursive solve
         @param puzzle: an already parsed puzzle.
+        @param depth: depth counter
+        @param use_constraints: if should use pure recursion or constrains for the calculation
+        pure recursion is less efficient
         """
+        #evaluation
         if self._reject(puzzle):
             return None
         if self._accept(puzzle):
             return puzzle
-        #This is the dumbest way to do it
-        #for i in range(1, self.D+1):
-        #this one at least gets only the possibilities:
-
-        pos = self._get_next_zero(puzzle)
-        candidates = self._get_candidates(puzzle, pos)
-            
+        #constraints
+        if use_constraints:
+            pos = self._get_next_zero(puzzle)
+            candidates = self._get_candidates(puzzle, pos)
+        else:
+            candidates = range(1, self.D+1)            
+        #try all constraints
         for i in candidates:
             new_puzzle = self._generate_next(puzzle, i)
             ret = self._recursive_solve(new_puzzle, depth+1)

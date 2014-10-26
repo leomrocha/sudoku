@@ -5,8 +5,8 @@ Sudoku solver algorithms
 
 import copy
 import math
+import os.path
 
-import traceback
 
 def parse_csv_from_text(csv):
     """
@@ -19,18 +19,24 @@ def parse_csv_from_text(csv):
         for e in c:
             assert e >= 0
     return puzzle
+
     
 def parse_csv_from_file(csvfile):
     """
     parse input and add it to an array of arays
     """
-    f = open(csvfile)
-    puzzle = parse_csv_from_text(f.read())
-    #TODO if fails file will not be closed -> treat it with an exception and finally
-    f.close()
-    #verify dimension consistency
-    #assert if fail
-    return puzzle
+    if not os.path.isfile(csvfile):
+        return None
+    try:
+        f = open(csvfile)
+        ftext = f.read()
+        f.close()
+        puzzle = parse_csv_from_text(ftext)
+        return puzzle
+    except:
+        #TODO log error
+        pass
+    return None
 
     
 class RecursiveBacktrackingSudokuSolver(object):

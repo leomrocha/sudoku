@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """
+Sudoku solver algorithms
 """
 
 import copy
@@ -42,7 +43,12 @@ class RecursiveBacktrackingSudokuSolver(object):
     def __init__(self):
         """
         """
-        pass
+        #dimension
+        self.D = 0
+        #quadrant dimension && n# of quadrants
+        self.N = 0 
+        #row sum == column sum == quadrant sum
+        self.S = 0
         
     def _accept(self, puzzle):
         """
@@ -70,28 +76,22 @@ class RecursiveBacktrackingSudokuSolver(object):
                 if sum([sum(row) for row in quadrant]) != self.S:
                     return False
                 
-        print("Accepted solution: ")
-        for r in puzzle:
-            print(r)
         return True
         
     def _reject(self, puzzle):
         """
+        Checks wether the puzzle is valid, else is rejected
         """
-        #print "rejecting puzzle"
-        #for r in puzzle:
-        #    print r 
+        #TODO make it more efficient
         #check for non empty rows
         for r in puzzle:
             if 0 not in r and sum(r) != self.S:
-                #print "rejecting row ", 0 not in r, r
                 return True
         #check columns (obtain by transposing the matrix)
         t_puzzle = [[r[i] for r in puzzle] for i in range(self.D)]
         #check for non empty columns
         for c in t_puzzle:
             if 0 not in c and sum(c) != self.S:
-                #print "rejecting col ", 0 not in c, c
                 return True
         #check non empty quadrants
         for i in range(self.N):
@@ -103,7 +103,6 @@ class RecursiveBacktrackingSudokuSolver(object):
                 for row in quadrant:
                     qlist.extend(row)
                 if 0 not in qlist and sum(qlist) != self.S:
-                    #print "rejecting qlist ", 0 not in qlist, qlist
                     return True
                 
         return False
@@ -135,8 +134,8 @@ class RecursiveBacktrackingSudokuSolver(object):
         col = [puzzle[k][j] for k in range(D)]
         taken.update(col)
         #TODO improve math here (did it at 1 am)
-        qr = i/N; qc = j/N
-        quadrant = [row[qc*N:qc*N+N] for row in puzzle[qr*N:qr*N+N]]
+        qr = i/N; qc = j/N  #integer division ->important
+        quadrant = [row[qc*N:(qc+1)*N] for row in puzzle[qr*N:(qr+1)*N]]
         for r in quadrant:
             taken.update(r)
         taken.discard(0)
@@ -149,31 +148,27 @@ class RecursiveBacktrackingSudokuSolver(object):
         Calculates the candidates for a certain position in the puzzle
         @param puzzle
         """
-        D = len(puzzle)  #matrix dimension
-        N = int(math.sqrt(D))  #quadrants
         #all numbers in the selectable set
-        #the index of the rows and columns)
-        numbers = range(1, D+1)
-        indexes = range(D)
+        numbers = range(1, self.D+1)
+        #the index of the rows and columns
+        indexes = range(self.D)
         #initial candidates, empty
         candidates = [[[] for j in indexes] for k in indexes]
-        #for all columns and rows
-        t_puzzle = [[r[i] for r in puzzle] for i in indexes]
         for i in indexes:
             #i == row index
             for j in indexes:
                 # j == col index
                 if puzzle[i][j] == 0:
-                    #if the number is not yet defined
-                    #get all taken
+                    #if the position is not yet defined
                     candidates[i][j] = self._get_candidates(puzzle, (i,j))
         return candidates
         
     def _generate_next(self, puzzle, number):
         """
-        looks for the first zero and change it to the given number
+        Generates the next puzzle
+        looks for the first zero and changes it to the given number
         """
-        #print("generating next: ", number)
+        #deep copy needed (or will modify base puzzle and will be impossible to roll back)
         new_puzzle = copy.deepcopy(puzzle)
         for row in new_puzzle:
             if 0 in row:

@@ -127,6 +127,8 @@ class RecursiveBacktrackingSudokuSolver(object):
         @param pos: coord (x,y) in puzzle
         """
         i,j = pos
+        if puzzle[i][j] is not 0:
+            return []
         D = len(puzzle)  #matrix dimension
         N = int(math.sqrt(D))  #quadrants
         numbers = range(1, D+1)  #possible numbers and indexes

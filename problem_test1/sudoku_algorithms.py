@@ -8,43 +8,9 @@ import math
 import os.path
 
 
-def parse_csv_from_text(csv):
+class Sudoku(object):
     """
-    parse input and add it to an array of arays
-    """
-    puzzle = [ [int(i.strip()) for i in j.split(',')] for j in csv.split()]
-    #verify dimension consistency
-    for c in puzzle:
-        assert len(puzzle) == len(c)
-        for e in c:
-            assert e >= 0
-    return puzzle
-
-    
-def parse_csv_from_file(csvfile):
-    """
-    parse input and add it to an array of arays
-    """
-    if not os.path.isfile(csvfile):
-        return None
-    try:
-        f = open(csvfile)
-        ftext = f.read()
-        f.close()
-        puzzle = parse_csv_from_text(ftext)
-        return puzzle
-    except:
-        #TODO log error
-        pass
-    return None
-
-    
-class RecursiveBacktrackingSudokuSolver(object):
-    """
-    This sudoku solver uses a recursive backtracking algorithm
-    It can (and has by default) constraints on the elements that will try. 
-    This improves efficiency 
-    It can be used also as a pure dumb backtracking, that is slower and more memory intensive
+    Defines common functions for solvers and generators
     """
     def __init__(self):
         """
@@ -170,6 +136,23 @@ class RecursiveBacktrackingSudokuSolver(object):
                     #if the position is not yet defined
                     candidates[i][j] = self._get_candidates(puzzle, (i,j))
         return candidates
+
+class RecursiveBacktrackingSudokuSolver(Sudoku):
+    """
+    This sudoku solver uses a recursive backtracking algorithm
+    It can (and has by default) constraints on the elements that will try. 
+    This improves efficiency 
+    It can be used also as a pure dumb backtracking, that is slower and more memory intensive
+    """
+    def __init__(self):
+        """
+        """
+        #dimension
+        self.D = 0
+        #quadrant dimension && n# of quadrants
+        self.N = 0 
+        #row sum == column sum == quadrant sum
+        self.S = 0
         
     def _generate_next(self, puzzle, number):
         """
@@ -224,9 +207,3 @@ class RecursiveBacktrackingSudokuSolver(object):
             if ret is not None:
                 return ret
         
-if __name__ == "__main__":
-    """
-    execute example
-    """
-    pass
-    

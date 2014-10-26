@@ -4,6 +4,7 @@
 import random 
 import math
 
+from file_helpers import *
 
 class SudokuPuzzleGenerator(object):
     """
@@ -33,73 +34,40 @@ class SudokuPuzzleGenerator(object):
         @param solved_puzzle: the sudoku puzzle completed
         @param difficulty: number of zeros that will be put
         """
+        #TODO
         pass
 
-    def _get_next_zero(self, puzzle):
+    def _interchange_numbers(self, num1, num2):
         """
-        returns the coordinates of the next '0' element (to solve)
+        interchanges two numbers, for example, all 1 to 9 and all 9 to 1
+        this generates another valid puzzle
         """
-        D = len(puzzle)
-        numbers = range(D)
-        for i in numbers:
-            for j in numbers:
-                if puzzle[i][j] == 0:
-                    return (i,j)
+        #TODO
+        pass
 
-    def _get_candidates(self, puzzle, pos):
+    def _row_swap(self, puzzle, col1, col2):
         """
-        Calculates the candidates for a certain position in the puzzle
-        @param puzzle
-        @param pos: coord (x,y) in puzzle
+        Swap two rows
+        can only be in the same quadrant
         """
-        i,j = pos
-        D = len(puzzle)  #matrix dimension
-        N = math.sqrt(D)  #quadrants
-        taken = set([r for r in puzzle[i]])
-        col = [puzzle[k][j] for k in numbers]
-        taken.update(col)
-        qr = i/N; qc = j/N
-        quadrant = [row[qc:qc+N] for row in puzzle[qr:qr+N]]
-        for r in quadrant:
-            taken.update(r)
-        #avoid duplicates
-        taken = list(taken)
-        candidates = [i for i in numbers if i not in taken]
+        #TODO
+        pass
         
-    def _get_all_candidates(self, puzzle):
+    def _column_swap(self, puzzle, col1, col2):
         """
-        Calculates the candidates for a certain position in the puzzle
-        @param puzzle
+        Swap two columns
+        can only be in the same quadrant
         """
-        D = len(puzzle)  #matrix dimension
-        N = math.sqrt(D)  #quadrants
-        #all numbers in the selectable set (and also, the index of the rows and columns)
-        numbers = range(1, D+1)
-        #initial candidates, empty
-        candidates = [[[] for j in numbers] for k in numbers]
-        #for all columns and rows
-        t_puzzle = [[r[i] for r in puzzle] for i in numbers]
-        for i in numbers:
-            #i == row index
-            
-            for j in numbers:
-                # j == col index
-                if puzzle[i][j] == 0:
-                    #if the number is not yet defined
-                    #get all taken
-                    taken = set([r for r in puzzle[i]])
-                    col = [puzzle[k][j] for k in numbers]
-                    taken.update(col)
-                    qr = i/N; qc = j/N
-                    quadrant = [row[qc:qc+N] for row in puzzle[qr:qr+N]]
-                    for r in quadrant:
-                        taken.update(r)
-                    #avoid duplicates
-                    taken = list(taken)
-                    candidates[i][j] = [i for i in numbers if i not in taken]
-        return candidates
+        #TODO
+        pass
         
-    def _generate_solution(self, dimension):
+    def _generate_base_and_solve(self, dimension, n):
+        """
+        
+        """
+        pass
+        
+    def _generate_dumb_solution(self, dimension):
         """
         Generates a solved sudoku puzzle
         This algorithm is really DUMB and can fail, but at least is something
@@ -118,7 +86,7 @@ class SudokuPuzzleGenerator(object):
                 #this WILL fail many times .... the best way to generate is with a solver
         return puzzle
     
-    def generate(self, dimension=9, difficulty=27, tries=100):
+    def generate(self, dimension=9, difficulty=27, tries=10000):
         """
         returns a pair of matrices (puzzle, solution)
         @param dimension: the number of columns and rows in the puzzle

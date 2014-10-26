@@ -2,13 +2,22 @@
 
 This small project contains a SUDOKU solver, the tests, generator and documentation.
 
-Depending on time and other activities
+This document contains some information about design decisions and use
 
+###Usage
+    
+    python 
+    
+or
+    ./
+    
+##Installation
 
-##TLDR
-
-###Command Line Usage
-
+    git clone 
+    virtualenv venv
+    source /ven/bi/activate
+    
+    
 ###Web based site
     
     
@@ -20,17 +29,35 @@ Build a complete program that can be used and understood by other people and can
 
 Build from simple algorithms and while time is available, build more complex solvers
 
-##Scope
+##Scope for first submission (27/10/2014)
 
-Time limited:
+Time limited: should be done in no more than half a day on Saturday and half a day on Sunday (no more than one working day)
 
+####Language choice:
+ * Python: My choice
+ * Java: too verbose, will take more time
+ * C: will take longer
+ * C++: will take longer, will be nice to see if it's possible to implement a compile time solver (with templates :p)
+ * Ruby: I don't know it yet, 
+ * Clojure: I don't know it yet
+ * Scala: I don't know it yet but I'd like to try it
 
+I would like to make it in Javascript (Coffescript or Typescript) to make it work directly on the web. But it's not on the previous list
+
+####Why Python:
+It's a nice language, I've worked with already some time and I feel at ease.
+Also it's easy and quite to mount a Python server for making it work in web.
+
+####Dependency limitation
+Although scipy libraries are really good and fast for manipulating matrices, the goal is to be able to make it work without any non basic dependency
+the idea is to make it run under python 2.7 and 3 and make it work under Brython (brython.info) for a demo (I'd like to play a bit with brython and see the results)
 
 ##Sudoku Problem Description
 
 
 ###Vocabulary
 
+Puzzle: 
 Row:
 Colum:
 Quadrant:
@@ -58,17 +85,9 @@ Algorithms:
     constraint problem
     
 
-###Limitations
-
-I'm not a really fast coder, I do take my time to think about algorithms and technology.
-
-I arrive late at night and tired and have other activities, 
 
 ###Development
 
-##Usage
-
-###Command Line
 
 ###Web (Brython)
 
@@ -85,5 +104,6 @@ I arrive late at night and tired and have other activities,
 Add more algorithms, 
 I would like to have one algorithm of each type and an analysis of time and memory complexity of each
 
+ * Constraints from paper: <!--TODO-->
  * Genetic Algorithms
- * 
+ * Neural Networks

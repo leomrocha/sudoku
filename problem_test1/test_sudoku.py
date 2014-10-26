@@ -6,8 +6,10 @@ import unittest
 import random
 import math
 import copy
- 
+
+from sudoku_algorithms import Sudoku
 from sudoku_algorithms import RecursiveBacktrackingSudokuSolver
+
 
 
 VALID_PUZZLE = [
@@ -47,13 +49,14 @@ VALID_SOLUTION = [
                 ]
 
 
-class TestRecursiveBacktrackingSudokuSolver(unittest.TestCase):
+
+class TestSudoku(unittest.TestCase):
     """
     RecursiveBacktrackingSudokuSolver test suite.
     Main focus on testing the helping and evaluation functions
     """ 
     def setUp(self):
-        self.solver = RecursiveBacktrackingSudokuSolver()
+        self.solver = Sudoku()
  
     def tearDown(self):
         pass
@@ -199,24 +202,6 @@ class TestRecursiveBacktrackingSudokuSolver(unittest.TestCase):
                 for c in range(D):
                     self.assertEquals(set(missing[r][c]), candidates)
         #see other cases although they should be covered by the test__get_candidates
-
-    def test_solve(self):
-        """
-        """
-        #test a valid solution
-        solution = self.solver.solve(VALID_PUZZLE)
-        self.assertEquals(9, self.solver.D)
-        self.assertEquals(3, self.solver.N)
-        self.assertEquals(45, self.solver.S)
-        self.assertIsNotNone(solution)
-        self.assertEquals(VALID_SOLUTION, solution)
-        #test an invalid solution
-        in_solution = self.solver.solve(INVALID_PUZZLE)
-        self.assertEquals(9, self.solver.D)
-        self.assertEquals(3, self.solver.N)
-        self.assertEquals(45, self.solver.S)
-        self.assertIsNone(in_solution)
-        #TODO should test with a DB of cases
         
     ############################################################################
     #helper methods
@@ -304,6 +289,96 @@ class TestRecursiveBacktrackingSudokuSolver(unittest.TestCase):
             if counter >= n:
                 break
         return puzzle
+
+
+class TestRecursiveBacktrackingSudokuSolver(TestSudoku):
+    """
+    RecursiveBacktrackingSudokuSolver test suite.
+    Main focus on testing the helping and evaluation functions
+    """ 
+    def setUp(self):
+        self.solver = RecursiveBacktrackingSudokuSolver()
+ 
+    def tearDown(self):
+        pass
+        
+    def test_solve(self):
+        """
+        """
+        #test a valid solution
+        solution = self.solver.solve(VALID_PUZZLE)
+        self.assertEquals(9, self.solver.D)
+        self.assertEquals(3, self.solver.N)
+        self.assertEquals(45, self.solver.S)
+        self.assertIsNotNone(solution)
+        self.assertEquals(VALID_SOLUTION, solution)
+        #test an invalid solution
+        in_solution = self.solver.solve(INVALID_PUZZLE)
+        self.assertEquals(9, self.solver.D)
+        self.assertEquals(3, self.solver.N)
+        self.assertEquals(45, self.solver.S)
+        self.assertIsNone(in_solution)
+        #TODO should test with a DB of cases
+        
+        
+###In progress
+class TestSudokuPuzzleGenerator(TestSudoku):
+    """
+    """
+    def setUp(self):
+        self.solver = SudokuPuzzleGenerator()
+ 
+    def tearDown(self):
+        pass
+    
+    def test__generate_puzzle(self):
+        """
+        """
+        #TODO
+        pass
+
+    def test__swap_numbers(self):
+        """
+        """
+        #TODO
+        pass
+
+    def test__row_swap(self):
+        """
+        """
+        #TODO
+        pass
+        
+    def test__column_swap(self):
+        """
+        """
+        #TODO
+        pass
+        
+    def test__generate_valid_position(self):
+        """
+        """
+        #TODO
+        pass
+        
+    def test__generate_base_and_solve(self, dimension, n):
+        """
+        
+        """
+        #TODO
+        pass
+        
+    def test__generate_dumb_solution(self):
+        """
+        """
+        #TODO
+        pass
+    
+    def test_generate(self):
+        """
+        """
+        #TODO
+        pass
 
 if __name__ == '__main__':
     unittest.main()

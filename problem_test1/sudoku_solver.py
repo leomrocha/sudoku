@@ -17,19 +17,35 @@ SOLVERS = {
 
 
 
-def main(args):
-    parser = argparse.ArgumentParser(description='Sudoku solver')
-    parser.add_argument('-f','--csvfile', help='Input CSV file', required=True)
+def main():
+    parser = argparse.ArgumentParser(description="""Sudoku solver. Solves a sudoku given in a CSV file. 
+                                                    If no input file given it'll generate a sudoku file with the given output name
+                                                    default dimension = 9
+                                                    default difficulty (number of empty spaces) = 27
+                                                 """)
+    parser.add_argument('-f','--csvfile', help='Input CSV file', required=False)
     parser.add_argument('-o','--outcsvfile', help='Input CSV file', required=True)
+    parser.add_argument('-s','--dimension', default=9, help='Dimension of the sudoku puzzle to generate')
+    parser.add_argument('-d','--difficulty', default=27, help='Number of empty spaces in the generated sudoku')
     args = parser.parse_args()
-    puzzle = parse_csv_from_file(args.csvfile)
-    solver = RecursiveBacktrackingSudokuSolver()
-    solution = solver.solve(puzzle)
-    save_puzzle_to_csv(solution, args.outcsvfile)
-    #TODO log that file was printed
-    
+    #case solver
+    if args.csvfile:
+        puzzle = parse_csv_from_file(args.csvfile)
+        solver = RecursiveBacktrackingSudokuSolver()
+        solution = solver.solve(puzzle)
+        save_puzzle_to_csv(solution, args.outcsvfile)
+    #case generator
+    else:
+        generator = SudokuPuzzleGenerator()
+        puzzle, solution = generator.generate(args.dimension, args.difficulty)
+        if puzzle is not None:
+            save_puzzle_to_csv(puzzle, "puzzle_"+args.outcsvfile)
+        if solution is not None:
+            save_puzzle_to_csv(solution, "solution_"+args.outcsvfile)
+        if puzzle is None and solution is None:
+            print("generation failed, please try again")
 
 if __name__ == '__main__':
-    #TODO
-    main(args)
-    pass
+    """
+    """
+    main()

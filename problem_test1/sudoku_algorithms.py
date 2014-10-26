@@ -6,7 +6,7 @@ Sudoku solver algorithms
 import copy
 import math
 import os.path
-
+import random
 
 class Sudoku(object):
     """
@@ -186,8 +186,8 @@ class RecursiveBacktrackingSudokuSolver(Sudoku):
         recursive solve
         @param puzzle: an already parsed puzzle.
         @param depth: depth counter
-        @param use_constraints: if should use pure recursion or constrains for the calculation
-        pure recursion is less efficient
+        @param use_constraints: if should use pure recursion or constrains 
+                            for the calculation pure recursion is less efficient
         """
         #evaluation
         if self._reject(puzzle):
@@ -207,3 +207,149 @@ class RecursiveBacktrackingSudokuSolver(Sudoku):
             if ret is not None:
                 return ret
         
+################################################################################
+class SudokuPuzzleGenerator(RecursiveBacktrackingSudokuSolver):
+    """
+    Generates sudoku puzzles
+    Can use backtracking solver for finishing the generation
+    """
+    def __init__(self):
+        """
+        """
+        pass
+    
+    def _generate_puzzle(self, solved_puzzle, difficulty):
+        """
+        Takes a sudoku solved and takes out to leave only 'difficulty' 
+        number of elements visible, the rest is fill to 0
+        @param solved_puzzle: the sudoku puzzle completed
+        @param difficulty: number of zeros that will be put
+        """
+        D = len(solved_puzzle)
+        puzzle = copy.deepcopy(solved_puzzle)
+        #keep record of columns and rows that where selected
+        rows_register = range(D)
+        cols_register = [range(D) for i in rows_register]
+        
+        for i in range(difficulty):
+            r = random.choice(rows_register)
+            c = random.choice(cols_register[r])
+            #set blank to that point
+            puzzle[r][c] = 0
+            #erase register from the colums
+            cols_register[r].remove(c)
+            #check if row empty
+            if len(cols_register[r]) == 0:
+                rows_register.remove(r)
+        return puzzle
+
+    def _swap_numbers(self, num1, num2):
+        """
+        interchanges two numbers, for example, all 1 to 9 and all 9 to 1
+        this generates another valid puzzle
+        """
+        #TODO
+        pass
+
+    def _row_swap(self, puzzle, col1, col2):
+        """
+        Swap two rows
+        can only be in the same quadrant
+        """
+        #TODO
+        pass
+        
+    def _column_swap(self, puzzle, col1, col2):
+        """
+        Swap two columns
+        can only be in the same quadrant
+        """
+        #TODO
+        pass
+        
+    def _create_zero_puzzle(self, D):
+        """
+        Creates a DxD  matrix of zeros
+        """
+        puzzle = [[0 for j in range(D)] for i in range(D)]
+        return puzzle
+    
+    def _generate_valid_position(self, D, pos):
+        """
+        The generated puzzle might not be valid, the goal is to be able to test a position only
+        @param: D dimension of the puzzle
+        @param: pos = (i,j) position in the matrix that should contain a valid row column and quadrant
+        @return: a maybe invalid puzzle where the given position is valid
+        """
+        puzzle = self._create_zero_puzzle(D)
+        x,y = pos
+        N = int(math.sqrt(D))
+        qr,qc = x/N, y/N
+        #fill quadrant
+        qcandidates = range(1,D+1)
+        random.shuffle(qcandidates)
+        #quadrant = [row[qc*N:(qc+1)*N] for row in puzzle[qr*N:(qr+1)*N]]
+        for r in range(qr*N, (qr+1)*N):
+            for c in range(qc*N, (qc+1)*N):
+                puzzle[r][c] = qcandidates.pop()
+        #fill row
+        candidates = range(1,D+1)
+        random.shuffle(candidates)
+        rcandidates = [i for i in candidates if i not in puzzle[x]]
+        for i in range(D):
+            if puzzle[x][i] == 0:
+                puzzle[x][i] = rcandidates.pop()
+        #fill column
+        t_puzzle = [[r[i] for r in puzzle] for i in range(D)]
+        random.shuffle(candidates)
+        ccandidates = [i for i in candidates if i not in t_puzzle[y]]
+        for i in range(D):
+            if puzzle[i][y] == 0:
+                puzzle[i][y] = ccandidates.pop()
+        return puzzle
+        
+    def _generate_base_and_solve(self, dimension):
+        """
+        Generates a valid row, column and quadrant and then tries to solve for it
+        """
+        pos = random.randint(1,dimension), random.randint(1,dimension)
+        puzzle = self._generate_valid_position(dimension, pos)
+        solution = self.solve(puzzle)
+        return solution
+        
+    def _generate_dumb_solution(self, dimension):
+        """
+        Generates a solved sudoku puzzle
+        This algorithm is really DUMB and can fail, but at least is something
+        @param dimension: the number of columns and rows in the puzzle
+        """
+        D = len(puzzle)  #matrix dimension
+        N = math.sqrt(D)  #quadrants
+        puzzle = [[0 for j in numbers] for k in numbers]
+        #all numbers in the selectable set (and also, the index of the rows and columns)
+        numbers = range(1, D+1)
+        for i in numbers:
+            for j in numbers:
+                candidates = self._get_candidates(puzzle, (i,j))
+                assert len(candidates)>0
+                puzzle[i][j] = random.choice(candidates)
+                #this WILL fail many times .... the best way to generate is with a solver
+        return puzzle
+    
+    def generate(self, dimension=9, difficulty=27, tries=10):
+        """
+        returns a pair of matrices (puzzle, solution)
+        @param dimension: the number of columns and rows in the puzzle
+        @param difficulty: number of zeros that will be put
+        """
+        assert math.sqrt(difficulty) <= dimension
+        for i in xrange(tries):
+            try:
+                solution = self._generate_base_and_solve(dimension)
+                puzzle = self._generate_puzzle(solution, difficulty)
+                return puzzle, solution
+            except Exception as e:
+                #TODO log failed generation
+                print e
+                print("try %d failed, trying again " % i)
+        return None

@@ -6,10 +6,11 @@ This document contains some information about design decisions and use
 
 ###Usage
     
-    python 
+    ./sudoku_solver.py -f sudoku_files/example.csv -o out.csv
     
 or
-    ./
+
+    python sudoku_solver.py -f sudoku_files/example.csv -o out.csv
     
 ##Installation
 
@@ -107,3 +108,12 @@ I would like to have one algorithm of each type and an analysis of time and memo
  * Constraints from paper: <!--TODO-->
  * Genetic Algorithms
  * Neural Networks
+ 
+##Sources:
+
+http://zhangroup.aporc.org/images/files/Paper_3485.pdf Sudoku puzzles generating [sic]
+http://arxiv.org/pdf/1208.0370v1 Continuous time solver
+http://www.cs.virginia.edu/~robins/The_Science_Behind_SudoKu.pdf The science behind sudoku
+http://4c.ucc.ie/~hsimonis/sudoku.pdf Sudoku as a Constraint problem
+http://en.wikipedia.org/wiki/Sudoku_solving_algorithms
+http://en.wikipedia.org/wiki/Sudoku

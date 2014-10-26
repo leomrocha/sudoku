@@ -7,9 +7,7 @@ import random
 import math
 import copy
 
-from sudoku_algorithms import Sudoku
-from sudoku_algorithms import RecursiveBacktrackingSudokuSolver
-
+from sudoku.sudoku_algorithms import *
 
 
 VALID_PUZZLE = [
@@ -361,7 +359,7 @@ class TestSudokuPuzzleGenerator(TestSudoku):
         #TODO
         pass
         
-    def test__generate_base_and_solve(self, dimension, n):
+    def test__generate_base_and_solve(self):
         """
         
         """

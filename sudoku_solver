@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-
+Sudoku solver command line utility
 """
 
 
 import argparse
-from sudoku_algorithms import *
-from file_helpers import *
+from sudoku.sudoku_algorithms import *
+from sudoku.file_helpers import *
 
 SOLVERS = {
               "backtracking": RecursiveBacktrackingSudokuSolver,

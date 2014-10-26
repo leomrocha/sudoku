@@ -14,9 +14,18 @@ or
     
 ##Installation
 
-    git clone 
+    git clone https://github.com/leomrocha/sudoku.git
+    cd sudoku
+    ##
+    #if you want to use virtualenv
     virtualenv venv
-    source /ven/bi/activate
+    source /ven/bin/activate
+    #END virtualenv
+    ##
+    python setup.py install
+    ##
+    #Testing
+    python setup.py test
     
     
 ###Web based site

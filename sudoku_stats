@@ -1,0 +1,91 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Sudoku stats generator
+"""
+
+
+import argparse
+from sudoku.sudoku_algorithms import *
+from sudoku.file_helpers import *
+import time
+
+
+def main():
+    parser = argparse.ArgumentParser(description="""Sudoku solver stats generator. 
+                                                    Creates statistics about solving runtimes
+                                                 """)
+    parser.add_argument('-p','--outpath', help='path to write down the puzzles files')
+    parser.add_argument('-l','--low_dimension', default=2, help='Dimension of the smallest sudoku puzzles to try in quadrants (width and height)')
+    parser.add_argument('-d','--high_dimension', default=4, help='Dimension of the biggest sudoku puzzles to try in quadrants (width and height)')
+    parser.add_argument('-e','--low_difficulty_rate', default=0.3, help='ratio of elements in zero for the low difficulty tests')
+    parser.add_argument('-t','--high_difficulty_rate', default=0.55, help='ratio of elements in zero for the high difficulty tests')
+    parser.add_argument('-r','--runs', default=10, help='number of runs per dimension and difficulty')
+    
+    args = parser.parse_args()
+    #case solver
+    #dimensions to try
+    low_dimension = args.low_dimension 
+    high_dimension = args.high_dimension 
+    
+    #difficulty to try
+    low_difficulty_rate = args.low_difficulty_rate
+    high_difficulty_rate = args.high_difficulty_rate
+    
+    runs = args.runs
+    
+    path = ""
+    if args.outpath:
+        path = args.outpath
+        
+    generator = SudokuPuzzleGenerator()
+    generation_stats = open("generator_stats_1.csv",'a')
+    generation_stats.write("Run, Dimension, Difficulty, Time\n")
+
+    solver_stats = open("solver_stats_1.csv",'a')
+    solver_stats.write("Run, Dimension, Difficulty, Time\n")
+    print "lala"
+    for n in range(low_dimension, high_dimension+1):
+        print "n", n
+        D = n**2
+        DD = D**2
+        low_diff = int(DD*low_difficulty_rate)
+        high_diff = int(DD*high_difficulty_rate)
+        print low_diff, high_diff
+        for diff in range(low_diff, high_diff+1):
+            for i in range(runs):
+                print "diff ",diff
+                gtime_init = time.clock()
+                puzzle, solution = generator.generate(D, diff)
+                gtime_elapsed = time.clock() - gtime_init
+                #print puzzle, solution
+                #save stats
+                generation_stats.write(",".join([str(i),str(D),str(diff),str(gtime_elapsed)])+'\n')
+                generation_stats.flush()
+                #Save problem
+                if puzzle is not None:
+                    save_puzzle_to_csv(puzzle, path+"puzzle_run-"+str(i)+"_D-"+str(D)+"_diff-"+str(diff)+".csv")
+                if solution is not None:
+                    save_puzzle_to_csv(solution, path+"solution_run-"+str(i)+"_D-"+str(D)+"_diff-"+str(diff)+".csv")
+                if puzzle is None and solution is None:
+                    print("generation failed for D=%d and diff=%D, please try again"%(D, diff))
+                    continue
+                #Solve
+                stime_init = time.clock()
+                solved = generator.solve(puzzle)
+                stime_elapsed = time.clock() - stime_init
+                #Save stats
+                solver_stats.write(",".join([str(i),str(D),str(diff),str(stime_elapsed)])+'\n')
+                solver_stats.flush()
+                #save solution
+                if solved is not None:
+                    save_puzzle_to_csv(solution, path+"solved_run-"+str(i)+"_D-"+str(D)+"_diff-"+str(diff)+".csv")
+                else:
+                    print("solving failed for D=%d and diff=%D, please try again"%(D, diff))
+
+
+if __name__ == '__main__':
+    """
+    """
+    main()

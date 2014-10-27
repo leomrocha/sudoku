@@ -2,13 +2,35 @@
 
 This small project contains a SUDOKU solver, the tests, generator and documentation.
 
-###Usage
+##Usage
     
-    ./sudoku_solver.py -f sudoku_files/example.csv -o out.csv
-    
-or
+###Solving a sudoku puzzle
 
+    ./sudoku -f sudoku_files/example.csv -o out.csv
+    #or
     python sudoku_solver.py -f sudoku_files/example.csv -o out.csv
+    
+###Generating puzzles
+
+    ./sudoku -f -o out.csv -s 9 -d 40
+
+Will output two files:
+
+ * puzzle_out.csv
+ * solution_out.csv
+
+Where puzzle_out.csv contains the puzzle where dimensions are 9x9 and 40 elements set to 0 and solution_out.csv contains the solution to the puzzle
+
+
+###Getting stats
+
+_Note:_ This is a functionality under development
+
+    ./sudoku_stats -p out_puzzles_path/
+    
+In the path the files corresponding to the: run, dimension, difficulty for puzzle, solution and solved are saved.
+
+The idea is to later plot behaviour for different algorithms
     
 ##Installation
 
@@ -26,6 +48,8 @@ or
     python setup.py install
     
     
+#Discussion
+
 ##Goals of this little project
 
 Getting into the Insight Data Engineering program.
@@ -98,19 +122,18 @@ Afterward I read and analyzed several papers and online documentation
 
 I find interesting many of the approaches, for instance:
 
-http://zhangroup.aporc.org/images/files/Paper_3485.pdf Sudoku puzzles generating [sic]
-http://arxiv.org/pdf/1208.0370v1 Continuous time solver
-http://www.cs.virginia.edu/~robins/The_Science_Behind_SudoKu.pdf The science behind sudoku
-http://4c.ucc.ie/~hsimonis/sudoku.pdf Sudoku as a Constraint problem
-http://en.wikipedia.org/wiki/Sudoku_solving_algorithms
-http://en.wikipedia.org/wiki/Sudoku
+ * [Sudoku puzzles generating (sic)](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)
+ *[Continuous time solver](http://arxiv.org/pdf/1208.0370v1)
+ *[The science behind sudoku](http://www.cs.virginia.edu/~robins/The_Science_Behind_SudoKu.pdf )
+ *[Sudoku as a Constraint problem](http://4c.ucc.ie/~hsimonis/sudoku.pdf )
+ *[A small discussion about sudoku solving algorithms](http://en.wikipedia.org/wiki/Sudoku_solving_algorithms)
+
+And can be treated with
 
 ##Conclussions
 
 
-Was nice to write down a Sudoku solver in a few hours including tests, I feel that the task is completed although there are many things that I'd like to try, add and 
-
-There is the logging missing, I didn't implemented
+Was nice to write down a Sudoku solver in a few hours including tests, I feel that the task is completed although there are many things that I'd like to try. And there is a lot of work yet to make an application that can be used as a benchmarking tool
 
 I started working on making this work under Brython (brython.info). All the libraries load correclty, but had no time to actually make a nice working GUI
 

@@ -327,6 +327,6 @@ class SudokuPuzzleGenerator(RecursiveBacktrackingSudokuSolver):
                 return puzzle, solution
             except Exception as e:
                 #TODO log failed generation
-                print(e)
-                print("try %d failed, trying again " % i)
+                #print(e)
+                #print("try %d failed, trying again " % i)
         return None

@@ -6,13 +6,13 @@ This small project contains a SUDOKU solver, the tests, generator and documentat
     
 ###Solving a sudoku puzzle
 
-    ./sudoku -f sudoku_files/example.csv -o out.csv
+    ./sudoku_solver -f sudoku_files/example.csv -o out.csv
     #or
-    python sudoku_solver.py -f sudoku_files/example.csv -o out.csv
+    python sudoku_solver -f sudoku_files/example.csv -o out.csv
     
 ###Generating puzzles
 
-    ./sudoku -f -o out.csv -s 9 -d 40
+    ./sudoku_solver -f -o out.csv -s 9 -d 40
 
 Will output two files:
 
@@ -29,6 +29,14 @@ _Note:_ This is a functionality under development
     ./sudoku_stats -p out_puzzles_path/
     
 In the path the files corresponding to the: run, dimension, difficulty for puzzle, solution and solved are saved.
+
+Also two files will be in the current path:
+
+ * generator_stats.csv
+ * solver_stats.csv
+
+That contain the statistics [run, dimension, difficulty,time (seconds) ] for the generator and solver.
+
 
 The idea is to later plot behaviour for different algorithms
     
@@ -63,7 +71,7 @@ Build simple algorithms and if I have some more time, build more complex solvers
 
 Time limited: should be done in no more than half a day on Saturday and half a day on Sunday (no more than one working day)
 
-####Language choice:
+##Language choice:
  * Python: My choice
  * Java: too verbose, will take more time
  * C: will take longer
@@ -74,16 +82,18 @@ Time limited: should be done in no more than half a day on Saturday and half a d
 
 Would be interesting to make it in Javascript (Coffescript or Typescript) for it work directly on the web. But it's not on the previous list.
 
-####Why Python:
+###Why Python
+
 It's a nice language, I've worked with already some time and I feel at ease. It's fast to develop something and is not to verbose.
 
-####Dependency limitation
+###Dependency limitation
+
 Although scipy libraries are really good and fast for manipulating matrices, the goal is to be able to make it work without any non basic dependency.
 The idea is to make it run under python 2.7 and 3.
 
 ##Sudoku Problem Description
 
-Wikipedia
+[Sudoku](http://en.wikipedia.org/wiki/Sudoku) on Wikipedia
 
 ###Vocabulary
  * Dimension (D) the number of rows and columns of the matrix represented Sudoku puzzle
@@ -102,7 +112,7 @@ From the technical point of view:
 1. Recursive Solver + Tests
 2. Constraints + Tests
 3. Sudoku Generator + Tests
-4. Statistics
+4. Statistics (in progress)
 
 
 The selected algorithm is Backtracking with some constraints, this is fast enough for most puzzles and the time it takes to develop is reasonable and enters in the time I have to make it.
@@ -128,7 +138,6 @@ I find interesting many of the approaches, for instance:
  *[Sudoku as a Constraint problem](http://4c.ucc.ie/~hsimonis/sudoku.pdf )
  *[A small discussion about sudoku solving algorithms](http://en.wikipedia.org/wiki/Sudoku_solving_algorithms)
 
-And can be treated with
 
 ##Conclussions
 
@@ -144,6 +153,7 @@ I found out that manipulating DOM with python under brython can be a pain, and a
  * Add more solving algorithms, 
  * Improve the creation of puzzles
    - difficulty in human terms
+ * Improve the statistics module
    
    
 

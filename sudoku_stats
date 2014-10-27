@@ -40,10 +40,10 @@ def main():
         path = args.outpath
         
     generator = SudokuPuzzleGenerator()
-    generation_stats = open("generator_stats_1.csv",'a')
+    generation_stats = open("generator_stats.csv",'a')
     generation_stats.write("Run, Dimension, Difficulty, Time\n")
 
-    solver_stats = open("solver_stats_1.csv",'a')
+    solver_stats = open("solver_stats.csv",'a')
     solver_stats.write("Run, Dimension, Difficulty, Time\n")
     print "lala"
     for n in range(low_dimension, high_dimension+1):

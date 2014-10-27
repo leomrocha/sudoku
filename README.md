@@ -139,7 +139,7 @@ I find interesting many of the approaches, for instance:
  * [A small discussion about sudoku solving algorithms](http://en.wikipedia.org/wiki/Sudoku_solving_algorithms)
 
 
-##Conclussions
+##Conclusions
 
 
 Was nice to write down a Sudoku solver in a few hours including tests, I feel that the task is completed although there are many things that I'd like to try. And there is a lot of work yet to make an application that can be used as a benchmarking tool

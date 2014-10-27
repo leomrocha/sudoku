@@ -108,11 +108,11 @@ The idea is to make it run under python 2.7 and 3.
 
 From the technical point of view:
 
-0. Write down algorithms (paper)
-1. Recursive Solver + Tests
-2. Constraints + Tests
-3. Sudoku Generator + Tests
-4. Statistics (in progress)
+ 0. Write down algorithms (paper)
+ 1. Recursive Solver + Tests
+ 2. Constraints + Tests
+ 3. Sudoku Generator + Tests
+ 4. Statistics (in progress)
 
 
 The selected algorithm is Backtracking with some constraints, this is fast enough for most puzzles and the time it takes to develop is reasonable and enters in the time I have to make it.
@@ -133,10 +133,10 @@ Afterward I read and analyzed several papers and online documentation
 I find interesting many of the approaches, for instance:
 
  * [Sudoku puzzles generating (sic)](http://zhangroup.aporc.org/images/files/Paper_3485.pdf)
- *[Continuous time solver](http://arxiv.org/pdf/1208.0370v1)
- *[The science behind sudoku](http://www.cs.virginia.edu/~robins/The_Science_Behind_SudoKu.pdf )
- *[Sudoku as a Constraint problem](http://4c.ucc.ie/~hsimonis/sudoku.pdf )
- *[A small discussion about sudoku solving algorithms](http://en.wikipedia.org/wiki/Sudoku_solving_algorithms)
+ * [Continuous time solver](http://arxiv.org/pdf/1208.0370v1)
+ * [The science behind sudoku](http://www.cs.virginia.edu/~robins/The_Science_Behind_SudoKu.pdf )
+ * [Sudoku as a Constraint problem](http://4c.ucc.ie/~hsimonis/sudoku.pdf )
+ * [A small discussion about sudoku solving algorithms](http://en.wikipedia.org/wiki/Sudoku_solving_algorithms)
 
 
 ##Conclussions
@@ -154,6 +154,6 @@ I found out that manipulating DOM with python under brython can be a pain, and a
  * Improve the creation of puzzles
    - difficulty in human terms
  * Improve the statistics module
-   
+ * Make it run under Brython with a nice web UI
    
 

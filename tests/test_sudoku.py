@@ -334,24 +334,6 @@ class TestSudokuPuzzleGenerator(TestSudoku):
         """
         #TODO
         pass
-
-    def test__swap_numbers(self):
-        """
-        """
-        #TODO
-        pass
-
-    def test__row_swap(self):
-        """
-        """
-        #TODO
-        pass
-        
-    def test__column_swap(self):
-        """
-        """
-        #TODO
-        pass
         
     def test__generate_valid_position(self):
         """

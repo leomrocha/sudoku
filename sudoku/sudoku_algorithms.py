@@ -5,8 +5,8 @@ Sudoku solver algorithms
 
 import copy
 import math
-import os.path
 import random
+
 
 class Sudoku(object):
     """
@@ -167,7 +167,7 @@ class RecursiveBacktrackingSudokuSolver(Sudoku):
                 break
         return new_puzzle
     
-    def solve(self, puzzle):
+    def solve(self, puzzle, use_constraints=True):
         """
         Solves the sudoku
         @param puzzle: an already parsed puzzle.
@@ -179,7 +179,7 @@ class RecursiveBacktrackingSudokuSolver(Sudoku):
         #number of quadrant rows and columns
         self.N = int(math.sqrt(self.D))
         
-        return self._recursive_solve(puzzle)
+        return self._recursive_solve(puzzle, use_constraints)
         
     def _recursive_solve(self, puzzle, depth=0, use_constraints=True):
         """
@@ -206,7 +206,8 @@ class RecursiveBacktrackingSudokuSolver(Sudoku):
             ret = self._recursive_solve(new_puzzle, depth+1)
             if ret is not None:
                 return ret
-        
+
+
 ################################################################################
 class SudokuPuzzleGenerator(RecursiveBacktrackingSudokuSolver):
     """
@@ -243,30 +244,6 @@ class SudokuPuzzleGenerator(RecursiveBacktrackingSudokuSolver):
                 rows_register.remove(r)
         return puzzle
 
-    def _swap_numbers(self, num1, num2):
-        """
-        interchanges two numbers, for example, all 1 to 9 and all 9 to 1
-        this generates another valid puzzle
-        """
-        #TODO
-        pass
-
-    def _row_swap(self, puzzle, col1, col2):
-        """
-        Swap two rows
-        can only be in the same quadrant
-        """
-        #TODO
-        pass
-        
-    def _column_swap(self, puzzle, col1, col2):
-        """
-        Swap two columns
-        can only be in the same quadrant
-        """
-        #TODO
-        pass
-        
     def _create_zero_puzzle(self, D):
         """
         Creates a DxD  matrix of zeros
@@ -350,6 +327,6 @@ class SudokuPuzzleGenerator(RecursiveBacktrackingSudokuSolver):
                 return puzzle, solution
             except Exception as e:
                 #TODO log failed generation
-                print e
+                print(e)
                 print("try %d failed, trying again " % i)
         return None

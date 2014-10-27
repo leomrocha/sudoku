@@ -24,7 +24,7 @@ def main():
                                                     default difficulty (number of empty spaces) = 27
                                                  """)
     parser.add_argument('-f','--csvfile', help='Input CSV file', required=False)
-    parser.add_argument('-o','--outcsvfile', help='Input CSV file', required=True)
+    parser.add_argument('-o','--outcsvfile', help='Output CSV file', required=True)
     parser.add_argument('-s','--dimension', default=9, help='Dimension of the sudoku puzzle to generate')
     parser.add_argument('-d','--difficulty', default=27, help='Number of empty spaces in the generated sudoku')
     args = parser.parse_args()

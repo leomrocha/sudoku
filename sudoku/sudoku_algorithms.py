@@ -329,4 +329,5 @@ class SudokuPuzzleGenerator(RecursiveBacktrackingSudokuSolver):
                 #TODO log failed generation
                 #print(e)
                 #print("try %d failed, trying again " % i)
+                pass
         return None
